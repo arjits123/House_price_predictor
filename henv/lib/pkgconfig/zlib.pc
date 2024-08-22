@@ -1,0 +1,13 @@
+prefix=/Users/arjitsharma/Documents/ML Projects/House_price_predictor/henv
+exec_prefix=/Users/arjitsharma/Documents/ML Projects/House_price_predictor/henv
+libdir=/Users/arjitsharma/Documents/ML Projects/House_price_predictor/henv/lib
+sharedlibdir=/Users/arjitsharma/Documents/ML Projects/House_price_predictor/henv/lib
+includedir=/Users/arjitsharma/Documents/ML Projects/House_price_predictor/henv/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.13
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}
