@@ -7,6 +7,7 @@ from logger import logging
 from dataclasses import dataclass
 
 from data_transformation import DataTransformation
+from model_development import ModelTrainer
 
 import pandas as pd # type: ignore
 import numpy as np # type: ignore
@@ -16,9 +17,7 @@ import numpy as np # type: ignore
 class DataIngestionConfig:
     """This class contains configuration for data ingestion."""
     raw_data_path: str = os.path.join('artifacts', 'raw_data.csv')
-
     logging.info('Data ingestion configuration completed')
-
 
 # Class to ingest the data
 class DataIngestion:
@@ -57,10 +56,12 @@ if __name__ == "__main__":
     #Data Transformation
     data_transformation = DataTransformation()
     cleaned_df = data_transformation.clean_data(data = raw_data_path)
-    # print(cleaned_df.head())
     final_df = data_transformation.remove_out(new_df = cleaned_df)
-    # print(final_df.head())
-    data_transformation.initiate_data_transformation(final_data = final_df)
+    X_train, X_test, y_train, y_test = data_transformation.initiate_data_transformation(final_data = final_df)
+
+    #Model Development 
+    model_development = ModelTrainer()
+    print(model_development.initiate_model_trainer(X_train = X_train, X_test = X_test, y_train=y_train, y_test=y_test))
     
 
 

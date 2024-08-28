@@ -19,9 +19,9 @@ from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 class DataTransformationConfig:
     """Configuration class for data transformation."""
     # Handel missing values, outliers, scale the variables and encode (OneEncoder, StandardScaler, MinMaxscaler)
-    feature_engineering_obj_path = os.path.join('artifacts', 'feature_engineering.pkl')  
-    predictor_obj_path = os.path.join('artifacts', 'predictors.csv')
-    target_obj_path = os.path.join('artifacts', 'target.csv')
+    feature_engineering_obj_path : str = os.path.join('artifacts', 'feature_engineering.pkl')  
+    predictor_obj_path : str = os.path.join('artifacts', 'predictors.csv')
+    target_obj_path  :str = os.path.join('artifacts', 'target.csv')
 
 class DataTransformation:
     def __init__(self):
@@ -100,18 +100,19 @@ class DataTransformation:
             X = df.drop(columns = ['price'], axis = 1)
             y = df['price']
             logging.info('splitting data set into X and y completed')
-
-            #obtaining the perprocessor object
-            preprocessor_obj = self.get_data_transformation_object()
-            X_arr = preprocessor_obj.fit_transform(X)
-            logging.info('Data transformatio/ feature engineering completed')
-
+            
             #train test split
             X_train, X_test, y_train, y_test = TrainTestSplit(
-                predictor = X_arr,
+                predictor = X,
                 target = y
             )
             logging.info('train test split completed')
+
+            # obtaining preprocessor object
+            preprocessor_obj = self.get_data_transformation_object()
+            X_train = preprocessor_obj.fit_transform(X_train)
+            X_test = preprocessor_obj.transform(X_test)
+            logging.info('Data transformation/ feature engineering completed')
 
             save_obj(
                 file_path = self.transformation_config.feature_engineering_obj_path,
