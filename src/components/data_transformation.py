@@ -8,11 +8,11 @@ from dataclasses import dataclass
 from utils import convert_total_sq, outlier_remove, TrainTestSplit, save_obj
 
 # ML libraries
-import pandas as pd
-import numpy as np
-from sklearn.compose import make_column_transformer
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
+import pandas as pd # type: ignore
+import numpy as np # type: ignore
+from sklearn.compose import make_column_transformer # type: ignore
+from sklearn.pipeline import make_pipeline # type: ignore
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder # type: ignore
 
 #Data transformation configuration class
 @dataclass
@@ -20,8 +20,7 @@ class DataTransformationConfig:
     """Configuration class for data transformation."""
     # Handel missing values, outliers, scale the variables and encode (OneEncoder, StandardScaler, MinMaxscaler)
     feature_engineering_obj_path : str = os.path.join('artifacts', 'feature_engineering.pkl')  
-    predictor_obj_path : str = os.path.join('artifacts', 'predictors.csv')
-    target_obj_path  :str = os.path.join('artifacts', 'target.csv')
+    cleaned_data_obj_path : str = os.path.join('artifacts', 'cleaned_data.csv')
 
 class DataTransformation:
     def __init__(self):
@@ -77,6 +76,9 @@ class DataTransformation:
         new_df = new_df.drop(columns=['Price_per_sq_feet','is_outlier'])
 
         logging.info('Removal of outliers completed')
+
+        #saving cleaned csv file
+        new_df.to_csv(self.transformation_config.cleaned_data_obj_path, index=False, header=True)
 
         return new_df
 

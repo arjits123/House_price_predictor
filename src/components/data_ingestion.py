@@ -37,7 +37,7 @@ class DataIngestion:
             #making the artifacts directory
             os.makedirs(os.path.dirname(self.data_ingestion_config.raw_data_path), exist_ok=True)
 
-            #Saving the cleaned csv file
+            #Saving the raw csv file
             df.to_csv(self.data_ingestion_config.raw_data_path, index=False, header=True)
 
             logging.info('Data ingestion completed')

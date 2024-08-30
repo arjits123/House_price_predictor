@@ -53,6 +53,14 @@ def save_obj(file_path, obj):
     except Exception as e:
         pass
 
+def load_obj(file_path):
+    try:
+        with open(file_path, 'rb') as file:
+            return dill.load(file)
+    except Exception as e:
+        raise CustomException(e,sys)
+
+
 def model_training(X_train, y_train, X_test, y_test, models):
     try:
         report = {}
