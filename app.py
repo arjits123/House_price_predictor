@@ -6,12 +6,14 @@ import sys
 from sklearn.preprocessing import StandardScaler # type: ignore
 from src.pipelines.prediction import CustomData, PredictionPipeline
 
+
 #Creating flask application
 application = Flask(__name__)
 app = application
 
 # load the dataset
 house = pd.read_csv('artifacts/cleaned_data.csv')
+
 
 # Calling the main page
 @app.route('/')
@@ -39,8 +41,10 @@ def predict_datapoint():
         #Initialise the pipeline
         prediction_pipeline = PredictionPipeline()
         results = prediction_pipeline.predict(prediction_df)
-        print(results)
-        return render_template('index.html', result = np.round(results[0],5))
+        result_in_rupees = results[0] *100000
+        # formatted_result = "{:,.0f}".format(result_in_rupees)
+        print(result_in_rupees)
+        return render_template('index.html', result = np.round(result_in_rupees,1) )
     
 if __name__ =='__main__':
     app.run(debug = True, port = 5001)
