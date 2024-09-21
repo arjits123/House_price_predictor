@@ -5,4 +5,5 @@ matplotlib
 seaborn
 dill
 Flask
-# -e .
+gunicorn
+-e .
